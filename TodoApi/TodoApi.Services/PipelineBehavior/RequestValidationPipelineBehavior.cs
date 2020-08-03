@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using FluentValidation;
+using FluentValidation.Results;
 
 using MediatR;
 
@@ -25,6 +26,7 @@ namespace TodoApi.Services.PipelineBehavior
             var context = new ValidationContext<TRequest>(request);
             var failures = this.validators.Select(v => v.Validate(context))
                 .SelectMany(vr => vr.Errors)
+                .Where(ve => ve != null)
                 .Select(ve => ve.ErrorMessage)
                 .ToList();
 

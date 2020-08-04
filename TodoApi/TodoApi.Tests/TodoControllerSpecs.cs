@@ -5,8 +5,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Todo.Api.Controllers.Command;
-using Todo.Api.Controllers.Query;
+using Todo.Api.Controllers.Task.GetById;
+using Todo.Api.Controllers.Task.RegisterNew;
 using Todo.Tests.Fixture;
 using Todo.Tests.TestCollections.Names;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Todo.Api.Controllers.Query
+namespace Todo.Api.Controllers.Task.GetById
 {
     [Serializable]
     public class GetTaskByIdResponse

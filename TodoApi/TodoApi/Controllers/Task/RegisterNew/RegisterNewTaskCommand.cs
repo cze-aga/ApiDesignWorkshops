@@ -2,7 +2,7 @@
 
 using MediatR;
 
-namespace Todo.Api.Controllers.Command
+namespace Todo.Api.Controllers.Task.RegisterNew
 {
     public sealed class RegisterNewTaskCommand : IRequest<Result<RegisterNewTaskResponse>>
     {
@@ -16,8 +16,8 @@ namespace Todo.Api.Controllers.Command
             TaskDescription = taskDescription;
         }
 
-        public string TaskName { get; set;  }
+        public string TaskName { get; set; }
 
-        public string TaskDescription { get; set;  }
+        public string TaskDescription { get; set; }
     }
 }

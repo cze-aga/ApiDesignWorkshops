@@ -4,7 +4,7 @@ using CSharpFunctionalExtensions;
 
 using MediatR;
 
-namespace Todo.Api.Controllers.Query
+namespace Todo.Api.Controllers.Task.GetById
 {
     public class GetTaskByIdQuery : IRequest<Result<GetTaskByIdResponse>>
     {

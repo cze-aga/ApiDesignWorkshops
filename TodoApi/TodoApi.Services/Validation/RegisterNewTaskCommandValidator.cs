@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Todo.Api.Controllers.Command;
+using Todo.Api.Controllers.Task.RegisterNew;
 
 namespace Todo.Services.Validation
 {

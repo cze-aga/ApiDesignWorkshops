@@ -5,17 +5,17 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Todo.Api.Controllers.Command;
-using Todo.Api.Controllers.Query;
+using Todo.Api.Controllers.Task.GetById;
+using Todo.Api.Controllers.Task.RegisterNew;
 
-namespace Todo.Api.Controllers
+namespace Todo.Api.Controllers.Task
 {
     [Route("api/todo"), ApiController]
-    public class TodoController : ControllerBase
+    public class TaskController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public TodoController(IMediator mediator)
+        public TaskController(IMediator mediator)
         {
             this.mediator = mediator;
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Todo.Api.Controllers.Command
+namespace Todo.Api.Controllers.Task.RegisterNew
 {
     [Serializable]
     public sealed class RegisterNewTaskResponse

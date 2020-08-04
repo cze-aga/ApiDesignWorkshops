@@ -6,7 +6,7 @@ using CSharpFunctionalExtensions;
 
 using Microsoft.EntityFrameworkCore;
 
-using Todo.Api.Controllers.Command;
+using Todo.Api.Controllers.Task.RegisterNew;
 using Todo.Common.ServiceContracts;
 using Todo.Infrastructure.DatabaseContext;
 

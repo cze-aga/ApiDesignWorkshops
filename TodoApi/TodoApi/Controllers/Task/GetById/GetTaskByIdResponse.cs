@@ -3,7 +3,7 @@
 namespace Todo.Api.Controllers.Task.GetById
 {
     [Serializable]
-    public class GetTaskByIdResponse
+    public sealed class GetTaskByIdResponse
     {
         private GetTaskByIdResponse()
         {

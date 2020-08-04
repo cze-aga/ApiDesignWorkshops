@@ -8,14 +8,14 @@
     <PackageReference Include="Autofac" Version="5.2.0" />
     <PackageReference Include="Autofac.Configuration" Version="5.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.11.3" />
     <PackageReference Include="FluentValidation" Version="9.0.1" />
     <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Command\" />
-    <Folder Include="Controllers\Query\" />
+    <ProjectReference Include="..\Todo.Common\Todo.Common.csproj" />
   </ItemGroup>
 
 

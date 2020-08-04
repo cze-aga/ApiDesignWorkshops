@@ -1,11 +1,11 @@
-﻿using System.Reflection;
+﻿using System.Data.Common;
 
 using Microsoft.EntityFrameworkCore;
 
 using Todo.Infrastructure.DatabaseContext;
 using Todo.Model;
 
-namespace TodoApi.Tests.Fixture.EF
+namespace Todo.Tests.Fixture.EF
 {
     internal class TestDbContext : BaseTodoDbContext
     {
@@ -14,13 +14,9 @@ namespace TodoApi.Tests.Fixture.EF
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguringImpl(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(
-                ConnectionString,
-                options => options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
-
-            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlite((DbConnection)DatabaseManager.Connection);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

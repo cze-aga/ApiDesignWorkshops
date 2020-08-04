@@ -1,0 +1,14 @@
+﻿using FluentValidation;
+
+using Todo.Api.Controllers.Command;
+
+namespace Todo.Services.Validation
+{
+    internal class RegisterNewTaskCommandValidator : AbstractValidator<RegisterNewTaskCommand>
+    {
+        public RegisterNewTaskCommandValidator()
+        {
+            RuleFor(command => command.TaskName).NotNull().NotEmpty();
+        }
+    }
+}

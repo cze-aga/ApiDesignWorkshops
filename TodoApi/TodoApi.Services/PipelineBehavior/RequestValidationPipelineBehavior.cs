@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using CSharpFunctionalExtensions;
+
 using FluentValidation;
-using FluentValidation.Results;
 
 using MediatR;
 
-namespace TodoApi.Services.PipelineBehavior
+namespace Todo.Services.PipelineBehavior
 {
     internal class RequestValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
@@ -24,15 +25,18 @@ namespace TodoApi.Services.PipelineBehavior
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var context = new ValidationContext<TRequest>(request);
-            var failures = this.validators.Select(v => v.Validate(context))
+            var failures = validators.Select(v => v.Validate(context))
                 .SelectMany(vr => vr.Errors)
                 .Where(ve => ve != null)
                 .Select(ve => ve.ErrorMessage)
                 .ToList();
 
-            return failures.Any()
-                       ? Result.Failure<Task<TResponse>>(string.Join($", {Environment.NewLine}", failures))
-                       : next();
+            if (failures.Any())
+            {
+                throw new ValidationException(string.Join(", ", failures));
+            }
+
+            return next();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore;
 
 using Todo.Model;
 
@@ -11,15 +13,15 @@ namespace Todo.Infrastructure.DatabaseContext
             ConnectionString = connectionString;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DbSet<Task> Tasks { get; protected set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            optionsBuilder.UseSqlServer(
-                ConnectionString,
-                provider => provider.CommandTimeout(60));
-            base.OnConfiguring(optionsBuilder);
+            OnConfiguringImpl(builder);
+            base.OnConfiguring(builder);
         }
 
-        public DbSet<Task> Tasks { get; }
+        protected abstract void OnConfiguringImpl(DbContextOptionsBuilder builder);
 
         protected string ConnectionString { get; }
     }

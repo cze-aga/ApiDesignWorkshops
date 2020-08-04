@@ -5,13 +5,14 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using TodoApi.Tests.Fixture.EF;
+using Todo.Api;
+using Todo.Infrastructure.DatabaseContext;
+using Todo.Tests.Fixture.EF;
 
-namespace TodoApi.Tests.Fixture
+namespace Todo.Tests.Fixture
 {
     internal class TestWebApplicationFactory : WebApplicationFactory<Startup>
     {
@@ -28,11 +29,6 @@ namespace TodoApi.Tests.Fixture
                 {
                     services.Remove(hostedService);
                 }
-
-                var descriptor = services.FirstOrDefault(d => d.ServiceType.GetGenericTypeDefinition() == typeof(DbContextOptions<>));
-                services.Remove(descriptor);
-
-                services.AddDbContext<TestDbContext>();
             });
     }
 }

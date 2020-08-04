@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Net.Http;
 
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 
-namespace TodoApi.Tests.Fixture
+using Todo.Api;
+
+namespace Todo.Tests.Fixture
 {
     public sealed class IntegrationTestsFixture : IDisposable
     {

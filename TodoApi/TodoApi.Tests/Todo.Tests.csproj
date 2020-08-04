@@ -23,7 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Todo.Infrastructure\Todo.Infrastructure.csproj" />
-    <ProjectReference Include="..\TodoApi\TodoApi.csproj" />
+    <ProjectReference Include="..\TodoApi.Services\Todo.Services.csproj" />
+    <ProjectReference Include="..\TodoApi\Todo.Api.csproj" />
   </ItemGroup>
 
 </Project>

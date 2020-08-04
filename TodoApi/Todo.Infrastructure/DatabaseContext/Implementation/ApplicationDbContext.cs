@@ -1,4 +1,6 @@
-﻿namespace Todo.Infrastructure.DatabaseContext.Implementation
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Todo.Infrastructure.DatabaseContext.Implementation
 {
     internal class ApplicationDbContext : BaseTodoDbContext
     {
@@ -6,5 +8,8 @@
             : base(connectionString)
         {
         }
+
+        protected override void OnConfiguringImpl(DbContextOptionsBuilder builder) =>
+            builder.UseSqlServer(ConnectionString, provider => provider.CommandTimeout(60));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "modules": [
+    {
+      "type": "Todo.Infrastructure.InfrastructureAutofacModule, Todo.Infrastructure",
+      "parameters": {
+        "connectionString": "Server=localhost;Database=TodoDemo;Integrated Security=SSPI;"
+      }
+    },
+    {
+      "type": "Todo.Services.ServicesAutofacModule, Todo.Services"
+    }
+  ]
+}

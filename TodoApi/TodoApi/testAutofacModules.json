@@ -1,0 +1,10 @@
+{
+  "modules": [
+    {
+      "type": "Todo.Tests.Fixture.Autofac.TestInfrastructureAutofacModule, Todo.Tests"
+    },
+    {
+      "type": "Todo.Services.ServicesAutofacModule, Todo.Services"
+    }
+  ]
+}

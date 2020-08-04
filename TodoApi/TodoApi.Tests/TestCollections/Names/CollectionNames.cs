@@ -1,4 +1,4 @@
-﻿namespace TodoApi.Tests.TestCollections.Names
+﻿namespace Todo.Tests.TestCollections.Names
 {
     internal class CollectionNames
     {

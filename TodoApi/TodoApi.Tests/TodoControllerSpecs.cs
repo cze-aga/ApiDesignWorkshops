@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Todo.Api.Controllers.Task.GetById;
 using Todo.Api.Controllers.Task.RegisterNew;
+using Todo.Api.Controllers.Task.UpdateTask;
 using Todo.Tests.Fixture;
 using Todo.Tests.TestCollections.Names;
 
@@ -36,8 +37,7 @@ namespace Todo.Tests
         [Fact]
         public async Task TodoController_OnPostingValidRequest_SavesNewTask()
         {
-            var requestBody = JsonSerializer.Serialize(new RegisterNewTaskCommand("TestTask", "This is a test task description"));
-            var responseContent = await GetPostResponse<RegisterNewTaskResponse>(ApiRoot, requestBody);
+            var responseContent = await RegisterTask();
 
             var taskDto = await GetTaskDto(responseContent.TaskId);
             Assert.NotNull(taskDto);
@@ -50,6 +50,43 @@ namespace Todo.Tests
             var responseContent = await client.PostAsync(ApiRoot, new StringContent(requestBody, Encoding.UTF8, ContentType));
 
             Assert.Equal(HttpStatusCode.BadRequest, responseContent.StatusCode);
+        }
+
+        [Fact]
+        public async Task TodoController_OnPuttingValidRequest_UpdatesEntity()
+        {
+            // Arrange
+            var postResponseContent = await RegisterTask();
+
+            // Act
+            const string NewTaskName = "New and shiny task name";
+            var putRequestBody = JsonSerializer.Serialize(new UpdateTaskCommand(postResponseContent.TaskId, NewTaskName, string.Empty));
+            var response = await client.PutAsync(ApiRoot, new StringContent(putRequestBody, Encoding.UTF8, ContentType));
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var taskDto = await GetTaskDto(postResponseContent.TaskId);
+            Assert.Equal(NewTaskName, taskDto.Name);
+            Assert.Equal(string.Empty, taskDto.Description);
+        }
+
+        [Fact]
+        public async Task TodoController_OnPuttingInvalidRequest_ReturnsBadRequest()
+        {
+            // Arrange
+            // Act
+            var putRequestBody = JsonSerializer.Serialize(new UpdateTaskCommand(Guid.Empty, string.Empty, null));
+            var response = await client.PutAsync(ApiRoot, new StringContent(putRequestBody, Encoding.UTF8, ContentType));
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        private async Task<RegisterNewTaskResponse> RegisterTask()
+        {
+            var requestBody = JsonSerializer.Serialize(new RegisterNewTaskCommand("TestTask", "This is a test task description"));
+            var responseContent = await GetPostResponse<RegisterNewTaskResponse>(ApiRoot, requestBody);
+            return responseContent;
         }
 
         private async Task<TResponse> GetPostResponse<TResponse>(string url, string request)

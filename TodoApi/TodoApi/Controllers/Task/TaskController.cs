@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Todo.Api.Controllers.Task.GetById;
 using Todo.Api.Controllers.Task.RegisterNew;
+using Todo.Api.Controllers.Task.UpdateTask;
 
 namespace Todo.Api.Controllers.Task
 {
@@ -46,6 +47,20 @@ namespace Todo.Api.Controllers.Task
             }
 
             return NotFound(response.Error);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> UpdateTask([FromBody] UpdateTaskCommand command)
+        {
+            var response = await mediator.Send(command);
+            if (response.IsSuccess)
+            {
+                return Ok();
+            }
+
+            return StatusCode(500, response.Error);
         }
     }
 }

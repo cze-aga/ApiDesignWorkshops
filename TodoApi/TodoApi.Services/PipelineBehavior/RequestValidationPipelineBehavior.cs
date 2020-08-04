@@ -25,8 +25,11 @@ namespace Todo.Services.PipelineBehavior
             RequestHandlerDelegate<TResponse> next)
         {
             var context = new ValidationContext<TRequest>(request);
-            var failures = validators.Select(v => v.Validate(context)).SelectMany(vr => vr.Errors)
-                .Where(ve => ve != null).Select(ve => ve.ErrorMessage).ToList();
+            var failures = validators.Select(v => v.Validate(context))
+                .SelectMany(vr => vr.Errors)
+                .Where(ve => ve != null)
+                .Select(ve => ve.ErrorMessage)
+                .ToList();
 
             if (failures.Any())
             {

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-using CSharpFunctionalExtensions;
-
-using Microsoft.EntityFrameworkCore;
-
 using Todo.Api.Controllers.Task.UpdateTask;
 using Todo.Common.ServiceContracts;
 using Todo.Infrastructure.DatabaseContext;
@@ -14,13 +13,13 @@ namespace Todo.Services.CommandHandlers
 {
     internal class UpdateTaskCommandHandler : IValidatedRequestHandler<UpdateTaskCommand, Result>
     {
-        private readonly BaseTodoDbContext todoDbContext;
-
+        private readonly BaseTodoDbContext todoContext;
+        
         public UpdateTaskCommandHandler(DbContext context)
         {
             if (context is BaseTodoDbContext todoDbContext)
             {
-                this.todoDbContext = todoDbContext;
+                this.todoContext = todoDbContext;
             }
             else
             {
@@ -32,17 +31,16 @@ namespace Todo.Services.CommandHandlers
         {
             try
             {
-                var existingTask = todoDbContext.Tasks.Find(request.TaskId);
+                var existingTask = todoContext.Tasks.Find(request.TaskId);
 
                 existingTask.Name = request.UpdatedName;
                 existingTask.Description = request.UpdatedDescription;
 
-                todoDbContext.Tasks.Update(existingTask);
-                await todoDbContext.SaveChangesAsync();
-
+                todoContext.Tasks.Update(existingTask);
+                await todoContext.SaveChangesAsync();
                 return Result.Success();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return Result.Failure(ex.Message);
             }

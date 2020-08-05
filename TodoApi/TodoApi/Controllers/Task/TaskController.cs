@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
-
+using Todo.Api.Controllers.Task.DeleteTask;
 using Todo.Api.Controllers.Task.GetById;
 using Todo.Api.Controllers.Task.RegisterNew;
 using Todo.Api.Controllers.Task.UpdateTask;
@@ -52,6 +52,7 @@ namespace Todo.Api.Controllers.Task
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(500, Type = typeof(string))]
+        //[ProducesResponseType(451)]  ?xD
         public async Task<IActionResult> UpdateTask([FromBody] UpdateTaskCommand command)
         {
             var response = await mediator.Send(command);
@@ -62,5 +63,20 @@ namespace Todo.Api.Controllers.Task
 
             return StatusCode(500, response.Error);
         }
+
+        [HttpDelete]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> DeleteTask([FromQuery] Guid taskId)
+        {
+            var response = await mediator.Send(new DeleteTaskCommand { TaskId = taskId });
+            if (response.IsSuccess)
+            {
+                return Ok();
+            }
+
+            return StatusCode(500, response.Error);
+        }
+
     }
 }

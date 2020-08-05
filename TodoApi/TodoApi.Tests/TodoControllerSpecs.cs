@@ -55,15 +55,11 @@ namespace Todo.Tests
         [Fact]
         public async Task TodoController_OnPuttingValidRequest_UpdatesEntity()
         {
-            // Arrange
             var postResponseContent = await RegisterTask();
 
-            // Act
             const string NewTaskName = "New and shiny task name";
-            var putRequestBody = JsonSerializer.Serialize(new UpdateTaskCommand(postResponseContent.TaskId, NewTaskName, string.Empty));
-            var response = await client.PutAsync(ApiRoot, new StringContent(putRequestBody, Encoding.UTF8, ContentType));
+            var response = await UpdateTask(postResponseContent.TaskId, NewTaskName, string.Empty);
 
-            // Assert
             response.EnsureSuccessStatusCode();
             var taskDto = await GetTaskDto(postResponseContent.TaskId);
             Assert.Equal(NewTaskName, taskDto.Name);
@@ -73,12 +69,8 @@ namespace Todo.Tests
         [Fact]
         public async Task TodoController_OnPuttingInvalidRequest_ReturnsBadRequest()
         {
-            // Arrange
-            // Act
-            var putRequestBody = JsonSerializer.Serialize(new UpdateTaskCommand(Guid.Empty, string.Empty, null));
-            var response = await client.PutAsync(ApiRoot, new StringContent(putRequestBody, Encoding.UTF8, ContentType));
+            var response = await UpdateTask(Guid.Empty, string.Empty, null);
 
-            // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -102,6 +94,13 @@ namespace Todo.Tests
             var savedTaskResponse = await client.GetAsync($"{ApiRoot}?taskId={taskId}");
             savedTaskResponse.EnsureSuccessStatusCode();
             return JsonSerializer.Deserialize<GetTaskByIdResponse>(await savedTaskResponse.Content.ReadAsStringAsync());
+        }
+
+        private async Task<HttpResponseMessage> UpdateTask(Guid taskId, string name, string description)
+        {
+            var putRequestBody = JsonSerializer.Serialize(new UpdateTaskCommand(taskId, name, description));
+            var response = await client.PutAsync(ApiRoot, new StringContent(putRequestBody, Encoding.UTF8, ContentType));
+            return response;
         }
     }
 }
